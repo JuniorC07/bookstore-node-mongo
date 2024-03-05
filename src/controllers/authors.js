@@ -1,13 +1,16 @@
 import { NotFoundError } from '../errors/index.js'
 import authorService from '../services/author.js'
+import calcSkip from '../utils/calcSkip.js'
 import validateMongoId from '../utils/validateMongoId.js'
 import validateRequiredFields from '../utils/validateRequiredFields.js'
 
 const context = 'author'
 
 const findAll = async (req, res) => {
-  const {name} =  req.query
-  const authors = await authorService.findAll({name})
+  const {name, page = 1, limit = 10} =  req.query
+  const skip = calcSkip(page, limit)
+
+  const authors = await authorService.findAll({name, skip, limit})
   res.status(200).json(authors, context)
 }
 

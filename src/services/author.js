@@ -1,10 +1,10 @@
 import authorModel from '../models/Author.js'
 import bookModel from '../models/Book.js'
 
-const findAll = ({name}) => {
+const findAll = ({name, skip, limit}) => {
   const filter = {}
   if(name) filter.title = {$regex: name, $options: 'i'}
-  return authorModel.find(filter)
+  return authorModel.find(filter).skip(skip).limit(limit)
 }
 
 const findOne = (id) => {

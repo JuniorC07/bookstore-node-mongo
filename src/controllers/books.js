@@ -1,12 +1,14 @@
 import booksService from '../services/book.js'
+import calcSkip from '../utils/calcSkip.js'
 import validateMongoId from '../utils/validateMongoId.js'
 import validateRequiredFields from '../utils/validateRequiredFields.js'
 
 const context = 'book'
 
 const findAll = async (req, res) => {
-  const {title, price} =  req.query
-  const books = await booksService.findAll({title, price})
+  const {title, price, sort, page = 1, limit = 10} =  req.query
+  const skip = calcSkip(page, limit)
+  const books = await booksService.findAll({title, price, sort, skip, limit})
   res.status(200).json(books)
 }
 

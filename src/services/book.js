@@ -2,12 +2,20 @@ import bookModel from '../models/Book.js'
 import authorModel from '../models/Author.js'
 import { InvalidFieldError } from '../errors/index.js'
 
-
-const findAll = ({title, price}) => {
+const findAll = ({title, price, skip, limit, sort = ''}) => {
+  const order = {}
+  const validSortFields = ['title', 'publishingCompany', 'price']
+  const validSort = validSortFields.find(vs => vs === sort || `-${sort}`)
+  if(validSort){
+    const direction = sort.includes('-') ? -1: 1
+    order[validSort.replaceAll('-', '')] = direction
+  } else {
+    order.title = 1
+  }
   const filter = {}
   if(title) filter.title = {$regex: title, $options: 'i'}
   if(price) filter.price = {$price: title, $options: 'i'}
-  return bookModel.find(filter)
+  return bookModel.find(filter).skip(skip).limit(limit).sort(order)
 }
 
 const findAllByAuthorId = (authorId) => {
