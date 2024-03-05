@@ -1,10 +1,15 @@
+import { HttpError } from '../errors/index.js'
 
 // eslint-disable-next-line no-unused-vars 
 const errorHandler = (error, _req, res, _next) => {
-  const status = 500
-  const message = 'Internal Server Error'
-
-  console.error(error)
+  let status = 500
+  let message = 'Internal Server Error'
+  if(error instanceof HttpError) {
+    status = error.statusCode
+    message = error.message
+  } else {
+    console.error(error)
+  }
   res.status(status).json({ message })
 }
 
