@@ -1,9 +1,13 @@
 import bookModel from '../models/Book.js'
 import authorModel from '../models/Author.js'
+import { InvalidFieldError } from '../errors/index.js'
 
 
-const findAll = () => {
-  return bookModel.find()
+const findAll = ({title, price}) => {
+  const filter = {}
+  if(title) filter.title = {$regex: title, $options: 'i'}
+  if(price) filter.price = {$price: title, $options: 'i'}
+  return bookModel.find(filter)
 }
 
 const findAllByAuthorId = (authorId) => {
@@ -16,6 +20,9 @@ const findOne = (id) => {
 
 const create = async ({ authorId, ...data }) => {
   const author = await authorModel.findById(authorId).then(at => at && at.toObject() || at)
+  if(!author){
+    throw new InvalidFieldError({field: 'authorId'})
+  }
   return bookModel.create({ ...data, author })
 }
 

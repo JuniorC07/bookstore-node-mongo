@@ -6,7 +6,8 @@ import validateRequiredFields from '../utils/validateRequiredFields.js'
 const context = 'author'
 
 const findAll = async (req, res) => {
-  const authors = await authorService.findAll()
+  const {name} =  req.query
+  const authors = await authorService.findAll({name})
   res.status(200).json(authors, context)
 }
 

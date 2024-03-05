@@ -5,7 +5,8 @@ import validateRequiredFields from '../utils/validateRequiredFields.js'
 const context = 'book'
 
 const findAll = async (req, res) => {
-  const books = await booksService.findAll()
+  const {title, price} =  req.query
+  const books = await booksService.findAll({title, price})
   res.status(200).json(books)
 }
 
@@ -26,7 +27,7 @@ const findOne = async (req, res) => {
 const create = async (req, res) => {
 
   const requiredFields = ['title', 'price']
-  validateRequiredFields(requiredFields)
+  validateRequiredFields(requiredFields, req.body)
   const {
     title,
     publishingCompany,
@@ -50,7 +51,7 @@ const update = async (req, res) => {
   const { id } =  req.params
   validateMongoId(id, context)
   const requiredFields = ['title', 'price']
-  validateRequiredFields(requiredFields)
+  validateRequiredFields(requiredFields, req.body)
   const {
     title,
     publishingCompany,
