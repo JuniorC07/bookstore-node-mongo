@@ -1,5 +1,6 @@
 
-const errorHandler = (error, _req, res, next) => {
+// eslint-disable-next-line no-unused-vars 
+const errorHandler = (error, _req, res, _next) => {
   const status = 500
   const message = 'Internal Server Error'
 

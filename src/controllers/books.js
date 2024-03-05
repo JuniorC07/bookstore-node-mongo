@@ -29,7 +29,7 @@ const create = async (req, res) => {
 
   if(authorId && !isValidObjectId(authorId)){
     return res.status(422).json({
-      message: "You must provide a valid author id"
+      message: 'You must provide a valid author id'
     })
   }
   const newBook = await booksService.create({
@@ -58,14 +58,14 @@ const update = async (req, res) => {
     price,
     pages,
   })
-  res.status(200).send("Book has been updated")
+  res.status(200).send('Book has been updated')
 
 }
 
 const remove = async (req, res) => {
   const { id } =  req.params
   await booksService.remove(id)
-  res.status(200).send("Book has been removed")
+  res.status(200).send('Book has been removed')
 }
 
 export default {

@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose'
 import { authorSchema } from './Author.js'
 
 const bookSchema = new mongoose.Schema({
@@ -10,6 +10,6 @@ const bookSchema = new mongoose.Schema({
   author: authorSchema
 }, { versionKey: false })
 
-const book = mongoose.model("book", bookSchema)
+const book = mongoose.model('book', bookSchema)
 
 export default book

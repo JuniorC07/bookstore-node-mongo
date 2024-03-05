@@ -24,13 +24,13 @@ const update = async (req, res) => {
   const { name } =  req.body
 
   await authorService.update(id, { name })
-  res.status(200).send("author has been updated")
+  res.status(200).send('author has been updated')
 }
 
 const remove = async (req, res) => {
   const { id } =  req.params
   await authorService.remove(id)
-  res.status(200).send("author has been removed")
+  res.status(200).send('author has been removed')
 }
 
 export default {

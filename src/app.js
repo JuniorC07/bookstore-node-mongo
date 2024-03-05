@@ -1,17 +1,17 @@
-import express from "express"
-import dbConnect from "./config/db.js"
-import routes from "./routes/index.js"
-import errorHandler from "./middlewares/errorHandler.js"
+import express from 'express'
+import dbConnect from './config/db.js'
+import routes from './routes/index.js'
+import errorHandler from './middlewares/errorHandler.js'
 
 const app = express()
 app.use(express.json())
 
 const connection = await dbConnect()
 
-connection.on("error", (error) => console.error("DB Error", error))
-connection.once("open", () => console.error("DB connect"))
+connection.on('error', (error) => console.error('DB Error', error))
+connection.once('open', () => console.error('DB connect'))
 
-app.use("/", routes)
+app.use('/', routes)
 app.use(errorHandler)
 
 
