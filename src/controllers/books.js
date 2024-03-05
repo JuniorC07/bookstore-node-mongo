@@ -1,5 +1,8 @@
-import { isValidObjectId } from 'mongoose'
 import booksService from '../services/book.js'
+import validateMongoId from '../utils/validateMongoId.js'
+import validateRequiredFields from '../utils/validateRequiredFields.js'
+
+const context = 'book'
 
 const findAll = async (req, res) => {
   const books = await booksService.findAll()
@@ -8,17 +11,22 @@ const findAll = async (req, res) => {
 
 const findAllByAuthorId = async (req, res) => {
   const { authorId } =  req.params
+  validateMongoId(authorId, 'authorId')
   const books = await booksService.findAllByAuthorId(authorId)
   res.status(200).json(books)
 }
 
 const findOne = async (req, res) => {
   const { id } =  req.params
+  validateMongoId(id, context)
   const book = await booksService.findOne(id)
   res.status(200).json(book)
 }
 
 const create = async (req, res) => {
+
+  const requiredFields = ['title', 'price']
+  validateRequiredFields(requiredFields)
   const {
     title,
     publishingCompany,
@@ -27,11 +35,7 @@ const create = async (req, res) => {
     authorId
   } =  req.body
 
-  if(authorId && !isValidObjectId(authorId)){
-    return res.status(422).json({
-      message: 'You must provide a valid author id'
-    })
-  }
+  validateMongoId(authorId, 'authorId')
   const newBook = await booksService.create({
     title,
     publishingCompany,
@@ -44,7 +48,9 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } =  req.params
-
+  validateMongoId(id, context)
+  const requiredFields = ['title', 'price']
+  validateRequiredFields(requiredFields)
   const {
     title,
     publishingCompany,
@@ -64,6 +70,7 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   const { id } =  req.params
+  validateMongoId(id, context)
   await booksService.remove(id)
   res.status(200).send('Book has been removed')
 }

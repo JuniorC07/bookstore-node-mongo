@@ -5,6 +5,7 @@ import authorsRouter from './authors.js'
 import { readFileSync } from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import notFoundHandler from '../middlewares/notFoundHandler.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const docFile = readFileSync(path.resolve(path.dirname(__filename), '../docs/swagger-output.json'))
@@ -20,5 +21,7 @@ routes.get('/', (req, res) => {
 routes.get('/healthz', (req, res) => {
   res.sendStatus(200)
 })
+
+routes.use(notFoundHandler)
 
 export default routes

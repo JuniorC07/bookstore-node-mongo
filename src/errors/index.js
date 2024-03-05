@@ -16,9 +16,16 @@ class NotFoundError extends HttpError {
 
 class InvalidFieldError extends HttpError {
   constructor ({ context = '', field = 'data' }) {
-    super({message: `You must provide a valid ${context} ${field}`})
+    super({message: `You must provide a valid ${context && `${context} `}${field}`})
   }
   statusCode = 422
 }
 
-export { HttpError, NotFoundError, InvalidFieldError }
+class MissingParamError extends HttpError {
+  constructor (param) {
+    super({message: `Missing param: ${param}`})
+  }
+  statusCode = 422
+}
+
+export { HttpError, NotFoundError, InvalidFieldError, MissingParamError }
